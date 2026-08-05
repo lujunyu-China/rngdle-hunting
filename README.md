@@ -12,8 +12,9 @@
 ## 环境要求
 
 - Python 3.7+
-- Chrome 浏览器
-- ChromeDriver（与你的 Chrome 版本匹配）
+- Selenium和Pyperclip库
+- Chrome 
+- ChromeDriver
 
 ## 安装与使用
 
