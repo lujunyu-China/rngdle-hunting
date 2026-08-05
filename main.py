@@ -2,11 +2,12 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import WebDriverException
 import time
 import pyperclip
 
 
-def get_number_from_share(count):
+def get_number_from_share(count_num):
     options = webdriver.ChromeOptions()
     options.add_argument('--incognito')
     options.add_argument('--disable-extensions')
@@ -15,9 +16,9 @@ def get_number_from_share(count):
     options.add_argument('--disable-blink-features=AutomationControlled')
 
     driver = webdriver.Chrome(options=options)
-    driver.minimize_window()  
+    driver.minimize_window()
 
-    is_special = False  
+    is_special = False
 
     try:
         driver.get('https://rngdle.com')
@@ -40,22 +41,32 @@ def get_number_from_share(count):
         share_content = pyperclip.paste()
 
         if share_content:
-            print(f"第{count}次\n: {share_content}")
-            if "MYTHIC" in share_content or "ANOMALY" in share_content:
+            print(f"第{count_num}次:\n {share_content}")
+            if "MYTHIC" in share_content or "ANOMALY" in share_content or "EPIC" in share_content:
                 is_special = True
-                print(">>> 检测到特殊结果！窗口将保持打开，请手动查看。")
+                print(">>> 检测到特殊结果！请手动关闭浏览器窗口以继续...")
 
+    except WebDriverException:
+        pass 
     except Exception as e:
-        print(f"第{count}次 错误: {e}")
+        print(f"第{count_num}次 错误: {e}")
 
     finally:
         if is_special:
-            input("按回车键关闭浏览器并继续...")
-        driver.quit()
+            driver.set_window_position(0, 0)
+            driver.maximize_window()
+            while True:
+                try:
+                    _ = driver.title
+                    time.sleep(0.5)
+                except WebDriverException:
+                    break
+        else:
+            driver.quit()
 
 
 if __name__ == "__main__":
-    count = 0
+    counter = 0
     while True:
-        count += 1
-        get_number_from_share(count)
+        counter += 1
+        get_number_from_share(counter)
