@@ -40,7 +40,7 @@ def get_number_from_share(count):
         share_content = pyperclip.paste()
 
         if share_content:
-            print(f"第{count}次: {share_content}")
+            print(f"第{count}次\n: {share_content}")
             if "MYTHIC" in share_content or "ANOMALY" in share_content:
                 is_special = True
                 print(">>> 检测到特殊结果！窗口将保持打开，请手动查看。")
